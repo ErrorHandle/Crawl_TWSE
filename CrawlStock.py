@@ -101,44 +101,6 @@ def crawl_serialday():
         # 減一天
         date -= datetime.timedelta(days=1)
         time.sleep(7)
-    close = pd.DataFrame({k:d['收盤價'] for k,d in data.items()}).transpose()
-    close.index = pd.to_datetime(close.index)
-    open = pd.DataFrame({k:d['開盤價'] for k,d in data.items()}).transpose()
-    open.index = pd.to_datetime(open.index)
-
-    high = pd.DataFrame({k:d['最高價'] for k,d in data.items()}).transpose()
-    high.index = pd.to_datetime(high.index)
-
-    low = pd.DataFrame({k:d['最低價'] for k,d in data.items()}).transpose()
-    low.index = pd.to_datetime(low.index)
-
-    volume = pd.DataFrame({k:d['成交股數'] for k,d in data.items()}).transpose()
-    volume.index = pd.to_datetime(volume.index)
-
-    tsmc = {
-        'close':close['2330']['2020'].dropna().astype(float),
-        'open':open['2330']['2020'].dropna().astype(float),
-        'high':high['2330']['2020'].dropna().astype(float),
-        'low':low['2330']['2020'].dropna().astype(float),
-        'volume': volume['2330']['2020'].dropna().astype(float),
-    }
-    tsmc['close'].plot()
-    plt.show()
-
-
-    ret = talib2df(abstract.MACD(tsmc))
-    ret.index = tsmc['close'].index
-    ret.plot()
-    tsmc['close'].plot(secondary_y=True).plot()
-    plt.show()
-
-    ret = talib2df(abstract.STOCH(tsmc))
-    ret.index = tsmc['close'].index
-    ret.plot()
-    tsmc['close'].plot(secondary_y=True).plot()
-    plt.show()
-
-
 
 
 def talib2df(talib_output):
